@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-ExpenseTracker-70e3092d-70d5-4ca8-8bd8-74c68a607fb3</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.31" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.31" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.31">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExpenseTracker.Common\ExpenseTracker.Common.csproj" />
+    <ProjectReference Include="..\ExpenseTracker.DataModels\ExpenseTracker.DataModels.csproj" />
+    <ProjectReference Include="..\ExpenseTracker.Data\ExpenseTracker.Data.csproj" />
+    <ProjectReference Include="..\ExpenseTracker.Services.Core\ExpenseTracker.Services.Core.csproj" />
+    <ProjectReference Include="..\ExpenseTracker.ViewModels\ExpenseTracker.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
