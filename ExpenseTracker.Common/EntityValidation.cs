@@ -1,12 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExpenseTracker.Common
+﻿namespace ExpenseTracker.Common
 {
-    internal class EntityValidation
+    public static class EntityValidation
     {
+        public static class Category
+        {
+            public const int CategoryNameMin = 3;
+            public const int CategoryNameMax = 30;
+
+            public const int CategoryDescriptionMin = 10;
+            public const int CategoryDescriptionMax = 300;
+        }
+
+        public static class Expense
+        {
+            public const int ExpenseTitleMin = 3;
+            public const int ExpenseTitleMax = 50;
+            public const int ExpenseNotesMin = 10;
+            public const int ExpenseNotesMax = 300;
+        }
+        public static class Budget
+        {
+            public const int BudgetYearMin = 2000;
+            public const int BudgetYearMax = 2026;
+        }
     }
 }
