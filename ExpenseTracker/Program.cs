@@ -1,4 +1,6 @@
 using ExpenseTracker.Data;
+using ExpenseTracker.Services.Core;
+using ExpenseTracker.Services.Core.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +27,8 @@ namespace ExpenseTracker
             })
                 .AddEntityFrameworkStores<ExpenseDbContext>();
             
+            builder.Services.AddScoped<IExpenseService, ExpenseService>();
+
             builder.Services.AddControllersWithViews();
 
             WebApplication app = builder.Build();

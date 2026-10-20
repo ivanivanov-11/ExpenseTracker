@@ -22,7 +22,7 @@
         public decimal Amount { get; set; }
 
         [Required]
-        public DateTime paidAt { get; set; }
+        public DateTime PaidAt { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

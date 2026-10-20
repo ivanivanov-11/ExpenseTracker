@@ -27,11 +27,9 @@ namespace ExpenseTracker.Data.Migrations
 
             modelBuilder.Entity("ExpenseTracker.DataModels.Budget", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Month")
                         .HasColumnType("int");
@@ -114,7 +112,7 @@ namespace ExpenseTracker.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("paidAt")
+                    b.Property<DateTime>("PaidAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
