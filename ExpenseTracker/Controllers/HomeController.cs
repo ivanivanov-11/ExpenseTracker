@@ -1,21 +1,47 @@
-using System.Diagnostics;
-using ExpenseTracker.Models;
-using Microsoft.AspNetCore.Mvc;
-
 namespace ExpenseTracker.Controllers
 {
-    public class HomeController : Controller
+    using ExpenseTracker.ViewModels;
+    using ExpenseTracker.Services.Core.Contracts;
+    using ExpenseTracker.ViewModels.Dashboard;
+    using ExpenseTracker.ViewModels.Expense;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
+    using System.Security.Claims;
+
+    public class HomeController(IExpenseService expenseService) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
-            _logger = logger;
-        }
+            var result = await expenseService.GetDashboardAsync(User.FindFirstValue(ClaimTypes.NameIdentifier)!, DateTime.Now);
+            return View(new DashboardViewModel
+            {
+                UserName = result.UserName,
+                MonthName = result.MonthName,
+                TotalSpent = result.TotalSpent,
+                TransactionCount = result.TransactionCount,
+                AverageTransaction = result.AverageTransaction,
+                BudgetLimit = result.BudgetLimit,
 
-        public IActionResult Index()
-        {
-            return View();
+                RecentExpenses = result.RecentExpenses.Select(item => new ExpenseRowViewModel
+                {
+                    Id = item.Id,
+                    Title = item.Title,
+                    Amount = item.Amount,
+                    PaidAt = item.PaidAt,
+                    CategoryName = item.CategoryName,
+                    PaymentMethod = item.PaymentMethod
+                }).ToList(),
+
+                CategoryBreakdown = result.CategoryBreakdown.Select(item => new CategorySpendViewModel
+                {
+                    CategoryName = item.CategoryName,
+                    Amount = item.Amount,
+                    Percentage = item.Percentage
+                }).ToList()
+            });
+
         }
 
         public IActionResult Privacy()

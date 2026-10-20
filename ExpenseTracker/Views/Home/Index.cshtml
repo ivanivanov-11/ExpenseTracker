@@ -1,8 +1,42 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model DashboardViewModel
+@{ ViewData["Title"] = "Overview"; }
+<div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+    <div><h1 class="display-6">Hello @(Model.UserName).</h1><p class="text-muted">Your spending for @Model.MonthName.</p></div>
+    <div><a class="btn btn-primary" asp-controller="Expenses" asp-action="Create">Record expense</a></div>
+</div>
+<div class="row g-3 mb-4">
+    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Spent this month</h2><p class="fs-2 mb-0">@Model.TotalSpent.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</p><span>@Model.TransactionCount transactions</span></div></div>
+    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Average transaction</h2><p class="fs-2 mb-0">@Model.AverageTransaction.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</p></div></div>
+    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Budget remaining</h2><p class="fs-2 @(Model.BudgetLimit.HasValue && Model.BudgetRemaining < 0 ? "text-danger" : "")">@(Model.BudgetLimit.HasValue ? Model.BudgetRemaining.ToString("C", CultureInfo.GetCultureInfo("eu-EU")) : "Not set")</p><a asp-controller="Budget" asp-action="Index">Manage monthly budget</a></div></div>
+</div>
+<div class="row g-4">
+    <section class="col-lg-7">
+        <div class="d-flex justify-content-between mb-3"><h2 class="h4">Recent transactions</h2><a asp-controller="Expenses" asp-action="Index">View all</a></div>
+        <div class="list-group">
+        @if (Model.RecentExpenses.Count == 0)
+        {
+            <div class="list-group-item p-4"><p class="mb-0">Add your first transaction to start seeing patterns.</p></div>
+        }
+        @foreach (var expense in Model.RecentExpenses)
+        {
+            <a class="list-group-item list-group-item-action d-flex justify-content-between gap-3 p-3" asp-controller="Expenses" asp-action="Details" asp-route-id="@expense.Id">
+                <div><strong>@expense.Title</strong><div class="small text-muted">@expense.CategoryName · @expense.PaidAt.ToString("dd MMM, HH:mm")</div></div>
+                <strong>@expense.Amount.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</strong>
+            </a>
+        }
+        </div>
+    </section>
+    <section class="col-lg-5">
+        <h2 class="h4 mb-3">Category mix</h2>
+        <div class="card card-body">
+        @if (Model.CategoryBreakdown.Count == 0)
+        {
+            <p class="text-muted mb-0">Category insights will appear after your first transaction.</p>
+        }
+        @foreach (var category in Model.CategoryBreakdown)
+        {
+            <div class="d-flex justify-content-between gap-3 py-2 border-bottom"><span>@category.CategoryName <span class="text-muted small">(@category.Percentage.ToString("0.#")%)</span></span><strong>@category.Amount.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</strong></div>
+        }
+        </div>
+    </section>
 </div>

@@ -9,7 +9,7 @@
     public class Budget
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [Range(BudgetYearMin, BudgetYearMax)]

@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExpenseTracker.Common
+﻿namespace ExpenseTracker.Common
 {
-    internal class ApplicationConstants
+    using System.Globalization;
+    
+    public class ApplicationConstants
     {
+        public static readonly string[] PaymentMethods = new[] {
+            "Card",
+            "Cash",
+            "Bank Transfer",
+            "Other"
+        };
+
+        public const int DefaultPageSize = 10;
     }
 }
