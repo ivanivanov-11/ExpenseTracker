@@ -1,7 +1,7 @@
 @model DashboardViewModel
 @{ ViewData["Title"] = "Overview"; }
 <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
-    <div><h1 class="display-6">Hello @(Model.UserName).</h1><p class="text-muted">Your spending for @Model.MonthName.</p></div>
+    <div><h1 class="display-6">Hello @(Model.UserName).</h1><p class="text-muted">Your spending for <strong>@Model.MonthName</strong>.</p></div>
     <div><a class="btn btn-primary" asp-controller="Expenses" asp-action="Create">Record expense</a></div>
 </div>
 <div class="row g-3 mb-4">

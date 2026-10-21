@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpenseTracker.ViewModels.Expense
+namespace ExpenseTracker.ViewModels.Category
 {
     public class CategorySpendViewModel
     {
