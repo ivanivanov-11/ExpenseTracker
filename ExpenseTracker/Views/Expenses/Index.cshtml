@@ -1,0 +1,99 @@
+﻿@model ExpenseIndexViewModel
+@{
+    ViewData["Title"] = "Transactions";
+}
+<section class="mb-4 d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-end mb-4">
+    <div>
+        <p class="text-uppercase text-muted small mb-2">Details</p>
+        <h1 class="display-6 mb-1">Transactions</h1>
+        <p class="text-muted mb-0">Search and manage every expense in one place.</p>
+    </div>
+
+    <a class="btn btn-primary" asp-action="Create">Add expense</a>
+</section>
+
+<form method="get" class="card card-body bg-light mb-4">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="row g-3 align-items-end">
+        <div class="col-12 col-lg-4">
+            <label asp-for="Filter.Search" class="form-label">Search</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input asp-for="Filter.Search" class="form-control" placeholder="Title or notes" />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-2">
+            <label asp-for="Filter.CategoryId" class="form-label">Category</label>
+            <select asp-for="Filter.CategoryId" class="form-select">
+                <option value="">All categories</option>
+                @foreach (var category in Model.Categories) 
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2">
+            <label asp-for="Filter.FromDateTime" class="form-label">From</label>
+            <input asp-for="Filter.FromDateTime" class="form-control" />
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2">
+            <label asp-for="Filter.ToDateTime" class="form-label">To</label>
+            <input asp-for="Filter.ToDateTime" class="form-control" />
+        </div>
+
+        <div class="col-12 col-lg-2">
+            <button class="btn btn-dark w-100" type="submit">Filter</button>
+        </div>
+    </div>
+</form>
+
+<div class="d-flex justify-content-between align-items-center my-3"><div><p class="text-uppercase text-muted small mb-1">@(Model.Expenses.Count) result@(Model.Expenses.Count == 1 ? "" : "s")</p><h2 class="h4">All activity</h2></div><span class="badge bg-primary fs-6">Total @Model.Total.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</span></div>
+<div class="border rounded bg-white table-responsive">
+    @if (Model.Expenses.Count == 0)
+    {
+        <div class="text-center p-5"><div class="d-none"></div><h3 class="h5 mt-3">No transactions found</h3><p class="text-muted mb-0">Try adjusting your filters or add a new expense.</p></div>
+    }
+    else
+    {
+        <table class="table align-middle mb-0">
+            <thead><tr><th>Transaction</th><th>Category</th><th>Date</th><th>Payment</th><th class="text-end">Amount</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var expense in Model.Expenses)
+                {
+                    <tr>
+                        <td>
+                            <a class="text-decoration-none" asp-action="Details" asp-route-id="@expense.Id">@expense.Title</a>
+                        </td>
+                           
+                        <td>
+                            <span class="badge bg-light text-dark">@expense.CategoryName</span>
+                        </td>
+
+                        <td>
+                            @expense.PaidAt.ToString("dd MMM yyyy, HH:mm")
+                        </td>
+
+                        <td>
+                            @expense.PaymentMethod
+                        </td>
+
+                        <td class="text-end fw-semibold">
+                            @expense.Amount.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))
+                        </td>
+                        
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a class="btn btn-light" asp-action="Edit" asp-route-id="@expense.Id" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a class="btn btn-light text-danger" asp-action="Delete" asp-route-id="@expense.Id" title="Delete"><i class="fa-solid fa-xmark"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

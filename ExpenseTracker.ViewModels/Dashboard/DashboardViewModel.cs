@@ -1,4 +1,5 @@
-﻿using ExpenseTracker.ViewModels.Expense;
+﻿using ExpenseTracker.ViewModels.Category;
+using ExpenseTracker.ViewModels.Expense;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -16,10 +16,17 @@
 
         public async Task<DashboardResponse> GetDashboardAsync(string userId, DateTime now)
         {
+            var user = await dbContext.Users
+                .AsNoTracking()
+                .Select(u => new { u.Id, u.UserName })
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
             var monthExpenses = dbContext.Expenses
                 .AsNoTracking()
                 .Include(expense => expense.Category)
-                .Where(expense => expense.UserId == userId && expense.PaidAt.Year == now.Year && expense.PaidAt.Month == now.Month);
+                .Where(expense => expense.UserId == userId && 
+                expense.PaidAt.Year == now.Year && 
+                expense.PaidAt.Month == now.Month);
 
             var expenses = await monthExpenses
                 .OrderByDescending(expense => expense.PaidAt)
@@ -33,6 +40,7 @@
 
             return new DashboardResponse
             {
+                UserName = user.UserName,
                 MonthName = now.ToString("MMMM yyyy"),
                 TotalSpent = total,
                 TransactionCount = expenses.Count,
@@ -61,8 +69,12 @@
             var query = dbContext.Expenses
                 .AsNoTracking()
                 .Include(expense => expense.Category)
-                .Where(expense => expense.UserId == userId)
-                .Where(expense => expense.CategoryId == filter.CategoryId);
+                .Where(expense => expense.UserId == userId);
+
+            if (filter.CategoryId.HasValue)
+            {
+                query = query.Where(expense => expense.CategoryId == filter.CategoryId.Value);
+            }
 
             if (!string.IsNullOrWhiteSpace(filter.Search))
             {

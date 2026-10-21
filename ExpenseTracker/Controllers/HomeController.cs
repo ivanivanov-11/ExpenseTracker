@@ -4,6 +4,7 @@ namespace ExpenseTracker.Controllers
     using ExpenseTracker.Services.Core.Contracts;
     using ExpenseTracker.ViewModels.Dashboard;
     using ExpenseTracker.ViewModels.Expense;
+    using ExpenseTracker.ViewModels.Category;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
@@ -14,8 +15,10 @@ namespace ExpenseTracker.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var result = await expenseService.GetDashboardAsync(User.FindFirstValue(ClaimTypes.NameIdentifier)!, DateTime.Now);
-            return View(new DashboardViewModel
+            string userId = GetUserId();
+            var result = await expenseService.GetDashboardAsync(userId, DateTime.Now);
+
+            DashboardViewModel dashboardViewModel = new DashboardViewModel()
             {
                 UserName = result.UserName,
                 MonthName = result.MonthName,
@@ -24,7 +27,7 @@ namespace ExpenseTracker.Controllers
                 AverageTransaction = result.AverageTransaction,
                 BudgetLimit = result.BudgetLimit,
 
-                RecentExpenses = result.RecentExpenses.Select(item => new ExpenseRowViewModel
+                RecentExpenses = result.RecentExpenses.Select(item => new ExpenseRowViewModel()
                 {
                     Id = item.Id,
                     Title = item.Title,
@@ -34,13 +37,15 @@ namespace ExpenseTracker.Controllers
                     PaymentMethod = item.PaymentMethod
                 }).ToList(),
 
-                CategoryBreakdown = result.CategoryBreakdown.Select(item => new CategorySpendViewModel
+                CategoryBreakdown = result.CategoryBreakdown.Select(item => new CategorySpendViewModel()
                 {
                     CategoryName = item.CategoryName,
                     Amount = item.Amount,
                     Percentage = item.Percentage
                 }).ToList()
-            });
+            };
+
+            return View(dashboardViewModel);
 
         }
 
@@ -49,5 +54,7 @@ namespace ExpenseTracker.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim not found.");
     }
 }

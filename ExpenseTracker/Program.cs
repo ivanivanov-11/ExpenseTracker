@@ -28,6 +28,7 @@ namespace ExpenseTracker
                 .AddEntityFrameworkStores<ExpenseDbContext>();
             
             builder.Services.AddScoped<IExpenseService, ExpenseService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             builder.Services.AddControllersWithViews();
 
