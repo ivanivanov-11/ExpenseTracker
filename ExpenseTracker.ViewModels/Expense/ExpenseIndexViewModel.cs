@@ -4,8 +4,8 @@
     public class ExpenseIndexViewModel
     {
         public ExpenseFilterViewModel Filter { get; set; } = new ExpenseFilterViewModel();
-        public ICollection<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
-        public ICollection<ExpenseRowViewModel> Expenses { get; set; } = new List<ExpenseRowViewModel>();
+        public IEnumerable<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
+        public IEnumerable<ExpenseRowViewModel> Expenses { get; set; } = new List<ExpenseRowViewModel>();
         public decimal Total { get; set; }
     }
 }

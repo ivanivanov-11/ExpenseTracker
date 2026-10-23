@@ -8,7 +8,7 @@
         public int TransactionCount { get; set; }
         public decimal AverageTransaction { get; set; }
         public decimal? BudgetLimit { get; set; }
-        public ICollection<ExpenseResponse> RecentExpenses { get; set; } = new List<ExpenseResponse>();
-        public ICollection<CategorySpendResponse> CategoryBreakdown { get; set; } = new List<CategorySpendResponse>();
+        public IEnumerable<ExpenseResponse> RecentExpenses { get; set; } = new List<ExpenseResponse>();
+        public IEnumerable<CategorySpendResponse> CategoryBreakdown { get; set; } = new List<CategorySpendResponse>();
     }
 }

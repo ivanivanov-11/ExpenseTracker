@@ -18,7 +18,7 @@
         [StringLength(ExpenseNotesMax, MinimumLength = ExpenseNotesMin, ErrorMessage = "Notes must be between {2} and {1} characters")]
         public string? Notes { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
+        [Required, Range(typeof(decimal), ExpenseAmountMin, ExpenseAmountMax)]
         public decimal Amount { get; set; }
 
         [Required]
