@@ -1,0 +1,17 @@
+﻿@model ExpenseDetailsViewModel
+@{
+    ViewData["Title"] = "Delete expense";
+}
+<section class="col-12 col-lg-8 mx-auto">
+    <a class="text-decoration-none" asp-action="Details" asp-route-id="@Model.Id">Back to transaction</a>
+    <div class="card card-body shadow-sm border-danger p-4 mt-4">
+        <div class="d-none d-none"></div>
+        
+        <h1 class="h3 mt-3">Delete this expense?</h1>
+        <p class="text-muted">This will permanently remove <strong>@Model.Title</strong> and its @Model.Amount.ToString("C", CultureInfo.GetCultureInfo("eu-EU")) record from your account.</p>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-flex gap-2 mt-4">
+            <a class="btn btn-light" asp-action="Details" asp-route-id="@Model.Id">Keep it</a>
+            <button class="btn btn-danger" type="submit">Delete expense</button>
+        </form>
+    </div>
+</section>
