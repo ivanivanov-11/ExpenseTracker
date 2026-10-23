@@ -8,7 +8,7 @@ namespace ExpenseTracker.Services.DTOs.Expense.Response
 {
     public class ExpensePageResponse
     {
-        public ICollection<ExpenseResponse> Expenses { get; set; } = new List<ExpenseResponse>();
+        public IEnumerable<ExpenseResponse> Expenses { get; set; } = new List<ExpenseResponse>();
         public decimal Total { get; set; }
     }
 }

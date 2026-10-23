@@ -15,9 +15,16 @@
         {
             public const int ExpenseTitleMin = 3;
             public const int ExpenseTitleMax = 50;
+
             public const int ExpenseNotesMin = 10;
             public const int ExpenseNotesMax = 300;
+
+            public const string ExpenseAmountMin = "0.01";
+            public const string ExpenseAmountMax = "1000000.00";
+
+            public const string DateTimeFormat = "smalldatetime";
         }
+
         public static class Budget
         {
             public const int BudgetYearMin = 2000;

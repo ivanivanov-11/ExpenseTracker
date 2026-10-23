@@ -56,6 +56,66 @@
             return View(expenseIndexViewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            ExpenseViewModel expenseViewModel = new ExpenseViewModel()
+            {
+                PaidAt = DateTime.Now,
+                Categories = await GetCategoryOptionsAsync()
+            };
+
+            return View(expenseViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ExpenseViewModel model)
+        {
+            model.Categories = await GetCategoryOptionsAsync();
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+
+            if (!model.Categories.Any(category => category.Id == model.CategoryId) || model.CategoryId == Guid.Empty)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "Choose an existing category.");
+                return View(model);
+            }
+
+            try
+            {
+                ExpenseRequest request = new ExpenseRequest
+                {
+                    Title = model.Title,
+                    Notes = model.Notes,
+                    Amount = model.Amount,
+                    PaidAt = model.PaidAt,
+                    CategoryId = model.CategoryId,
+                    PaymentMethod = model.PaymentMethod
+                };
+
+                await expenseService.CreateAsync(request, GetUserId());
+
+                TempData["Toast"] = "Expense added successfully.";
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentException exception)
+            {
+                ModelState.AddModelError(exception.ParamName ?? string.Empty, exception.Message);
+
+                model.Categories = await GetCategoryOptionsAsync();
+                return View(model);
+            }
+        }
+
         private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim not found.");
+
+        private async Task<List<CategoryOptionViewModel>> GetCategoryOptionsAsync() =>
+            (await categoryService.GetAllAsync(GetUserId()))
+            .Select(item => new CategoryOptionViewModel { Id = item.Id, Name = item.Name }).ToList();
     }
 }

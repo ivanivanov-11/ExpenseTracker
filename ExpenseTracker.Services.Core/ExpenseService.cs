@@ -178,9 +178,9 @@
             { 
                 await dbContext.SaveChangesAsync(); 
             }
-            catch (DbUpdateException exception)
+            catch (DbUpdateException)
             {
-                throw new ArgumentException("This category is no longer available. Choose another category.", "CategoryId");
+                throw new ArgumentException("This category is not available. Choose another category.", "CategoryId");
             }
         }
 

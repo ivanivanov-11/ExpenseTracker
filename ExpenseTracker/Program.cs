@@ -1,11 +1,13 @@
-using ExpenseTracker.Data;
-using ExpenseTracker.Services.Core;
-using ExpenseTracker.Services.Core.Contracts;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
 namespace ExpenseTracker
 {
+    using ExpenseTracker.Data;
+    using ExpenseTracker.Services.Core;
+    using ExpenseTracker.Services.Core.Contracts;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Localization;
+    using Microsoft.EntityFrameworkCore;
+    using System.Globalization;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -46,6 +48,17 @@ namespace ExpenseTracker
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            var culture = CultureInfo.InvariantCulture;
+
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(culture),
+                SupportedCultures = new[] { culture },
+                SupportedUICultures = new[] { culture }
+            };
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
