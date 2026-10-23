@@ -22,8 +22,10 @@
         public decimal Amount { get; set; }
 
         [Required]
+        [Column(TypeName = DateTimeFormat)]
         public DateTime PaidAt { get; set; }
 
+        [Column(TypeName = DateTimeFormat)]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [Required]

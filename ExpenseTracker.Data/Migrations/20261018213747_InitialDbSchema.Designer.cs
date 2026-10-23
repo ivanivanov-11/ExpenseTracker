@@ -93,7 +93,7 @@ namespace ExpenseTracker.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("smalldatetime");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(300)
@@ -113,7 +113,7 @@ namespace ExpenseTracker.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("PaidAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("smalldatetime");
 
                     b.HasKey("Id");
 
