@@ -2,6 +2,7 @@
 {
     using ExpenseTracker.Services.Core.Contracts;
     using ExpenseTracker.Services.DTOs.Expense.Request;
+    using ExpenseTracker.Services.DTOs.Expense.Response;
     using ExpenseTracker.ViewModels.Category;
     using ExpenseTracker.ViewModels.Expense;
     using Microsoft.AspNetCore.Authorization;
@@ -112,6 +113,44 @@
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            ExpenseResponse? result = await expenseService.GetDetailsAsync(id, GetUserId());
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            ExpenseDetailsViewModel expense = new ExpenseDetailsViewModel
+            {
+                Id = result.Id,
+                Title = result.Title,
+                Notes = result.Notes,
+                Amount = result.Amount,
+                PaidAt = result.PaidAt,
+                CategoryName = result.CategoryName,
+                PaymentMethod = result.PaymentMethod
+            };
+
+            return View(expense);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ExpenseDetailsViewModel model)
+        {
+            bool isDeleted = await expenseService.DeleteAsync(model.Id, GetUserId());
+
+            if (!isDeleted)
+            {
+                return NotFound();
+            }
+
+            TempData["Toast"] = "Expense deleted successfully.";
+
+            return RedirectToAction(nameof(Index));
+        }
         private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim not found.");
 
         private async Task<List<CategoryOptionViewModel>> GetCategoryOptionsAsync() =>
