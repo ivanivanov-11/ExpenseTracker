@@ -1,5 +1,6 @@
 ﻿namespace ExpenseTracker.Web.Controllers
 {
+    using ExpenseTracker.Data;
     using ExpenseTracker.Services.Core.Contracts;
     using ExpenseTracker.Services.DTOs.Expense.Request;
     using ExpenseTracker.Services.DTOs.Expense.Response;
@@ -21,7 +22,7 @@
 
             string userId = GetUserId();
 
-            var result = await expenseService.GetIndexAsync(userId, new ExpenseFilterRequest()
+            ExpensePageResponse result = await expenseService.GetIndexAsync(userId, new ExpenseFilterRequest()
             {
                 Search = filter.Search,
                 CategoryId = filter.CategoryId,
@@ -76,6 +77,9 @@
 
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError(string.Empty, "Invalid input.");
+                model.Categories = await GetCategoryOptionsAsync();
+
                 return View(model);
             }
 
@@ -83,6 +87,9 @@
             if (!model.Categories.Any(category => category.Id == model.CategoryId) || model.CategoryId == Guid.Empty)
             {
                 ModelState.AddModelError(nameof(model.CategoryId), "Choose an existing category.");
+
+                model.Categories = await GetCategoryOptionsAsync();
+
                 return View(model);
             }
 
@@ -174,6 +181,90 @@
             };
 
             return View(expense);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            ExpenseResponse? result = await expenseService.GetDetailsAsync(id, GetUserId());
+
+            if (result is null)
+            {
+                return NotFound();
+            }
+
+            ExpenseViewModel model = new ExpenseViewModel
+            {
+                Id = result.Id,
+                Title = result.Title,
+                Notes = result.Notes,
+                Amount = result.Amount,
+                PaidAt = result.PaidAt,
+                CategoryId = result.CategoryId,
+                PaymentMethod = result.PaymentMethod,
+                Categories = await GetCategoryOptionsAsync()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ExpenseViewModel model)
+        {
+            model.Categories = await GetCategoryOptionsAsync();
+
+            if (model.Id == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (!model.Categories.Any(category => category.Id == model.CategoryId) || model.CategoryId == Guid.Empty)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "Choose an existing category.");
+
+                model.Categories = await GetCategoryOptionsAsync();
+
+                return View(model);
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    ExpenseRequest request = new ExpenseRequest
+                    {
+                        Title = model.Title,
+                        Notes = model.Notes,
+                        Amount = model.Amount,
+                        PaidAt = model.PaidAt,
+                        CategoryId = model.CategoryId,
+                        PaymentMethod = model.PaymentMethod
+                    };
+
+                    bool updated = await expenseService.UpdateAsync(model.Id, request, GetUserId());
+
+                    if (!updated)
+                    {
+                        return NotFound();
+                    }
+
+                    TempData["Toast"] = "Transaction updated.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (ArgumentException exception)
+                {
+                    ModelState.AddModelError(exception.ParamName ?? string.Empty, exception.Message);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid input.");
+
+                model.Categories = await GetCategoryOptionsAsync();
+
+                return View(model);
+            }
+            return View(model);
         }
 
         private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim not found.");

@@ -7,7 +7,7 @@
     
     public class ExpenseViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(ExpenseTitleMax, MinimumLength = ExpenseTitleMin, ErrorMessage = "Title must be between {2} and {1} characters")]
