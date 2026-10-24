@@ -1,9 +1,9 @@
-﻿using ExpenseTracker.DataModels;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace ExpenseTracker.Data
+﻿namespace ExpenseTracker.Data
 {
+    using ExpenseTracker.DataModels;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+
     public class ExpenseDbContext : IdentityDbContext
     {
         public ExpenseDbContext(DbContextOptions<ExpenseDbContext> options)

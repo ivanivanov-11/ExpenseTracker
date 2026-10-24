@@ -1,13 +1,8 @@
-﻿using ExpenseTracker.ViewModels.Category;
-using ExpenseTracker.ViewModels.Expense;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExpenseTracker.ViewModels.Dashboard
+﻿namespace ExpenseTracker.ViewModels.Dashboard
 {
+    using ExpenseTracker.ViewModels.Category;
+    using ExpenseTracker.ViewModels.Expense;
+
     public class DashboardViewModel
     {
         // trusted -> untrusted
