@@ -1,5 +1,6 @@
 ﻿namespace ExpenseTracker.DataModels
 {
+    using ExpenseTracker.Common;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,7 @@
         [Range(1, 12)]
         public int Month { get; set; }
 
-        [Range(typeof(decimal), "0.01", "250000")]
+        [Range(typeof(decimal), EntityValidation.Budget.BudgetAmountMin, EntityValidation.Budget.BudgetAmountMax)]
         [Column(TypeName = "decimal(18,2)")]
         public decimal MonthlyLimit { get; set; }
 

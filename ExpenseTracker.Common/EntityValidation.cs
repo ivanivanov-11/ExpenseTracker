@@ -29,6 +29,9 @@
         {
             public const int BudgetYearMin = 2000;
             public const int BudgetYearMax = 2026;
+
+            public const string BudgetAmountMin = "0.01";
+            public const string BudgetAmountMax = "5000000.00";
         }
     }
 }
