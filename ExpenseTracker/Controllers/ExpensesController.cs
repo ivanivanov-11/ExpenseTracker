@@ -1,6 +1,5 @@
 ﻿namespace ExpenseTracker.Web.Controllers
 {
-    using ExpenseTracker.Data;
     using ExpenseTracker.Services.Core.Contracts;
     using ExpenseTracker.Services.DTOs.Expense.Request;
     using ExpenseTracker.Services.DTOs.Expense.Response;

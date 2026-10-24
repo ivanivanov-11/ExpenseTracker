@@ -21,8 +21,4 @@
     <ProjectReference Include="..\ExpenseTracker.DataModels\ExpenseTracker.DataModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
 </Project>
