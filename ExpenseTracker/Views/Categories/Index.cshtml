@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CategoryViewModel>
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+    <div>
+        <h1 class="display-6">Your categories</h1>
+        <p class="text-muted">Create labels for your spending. Deleting a category moves its transactions to Other.</p>
+    </div>
+
+    <div>
+        <a class="btn btn-primary" asp-action="Create">Add category</a>
+    </div>
+</div>
+
+<div class="row g-3">
+    @foreach (var category in Model)
+    {
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-body h-100">
+                <h2 class="h5">@category.Name</h2>
+                <p class="text-muted small">@category.Description</p>
+                <p>@category.ExpenseCount expense@(category.ExpenseCount == 1 ? "" : "s")</p>
+
+                @if (category.isDefault)
+                {
+                    <span class="text-muted small mt-auto">Default category · can't be deleted</span>
+                }
+                else
+                {
+                    <a class="btn btn-outline-danger btn-sm mt-auto" asp-action="Delete" asp-route-id="@category.Id">Delete @category.Name</a>
+                }
+            </div>
+        </div>
+    }
+</div>

@@ -9,7 +9,7 @@
         <div>
             <span class="badge bg-light text-dark mb-3">@Model.CategoryName</span>
             <h1 class="display-6 mb-1">@Model.Title</h1>
-            <p class="text-muted mb-0">Recorded @Model.PaidAt.ToString("dddd, dd MMMM yyyy at HH:mm")</p>
+            <p class="text-muted mb-0">Recorded @Model.PaidAt.ToString("dddd, dd MMMM yyyy 'at' HH:mm")</p>
         </div>
         
         <strong class="fs-2">@Model.Amount.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</strong>

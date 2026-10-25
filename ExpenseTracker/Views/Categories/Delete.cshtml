@@ -1,0 +1,34 @@
+﻿@model CategoryViewModel
+@{
+    ViewData["Title"] = "Delete category";
+}
+
+<div class="col-lg-8 mx-auto">
+    <h1 class="display-6 mb-4">Delete @Model.Name?</h1>
+    <div class="card card-body p-4">
+        <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+
+        @if (Model.isDefault)
+        {
+            <p>Other is your default category and cannot be deleted.</p>
+            <a asp-action="Index" class="btn btn-secondary">Back to categories</a>
+        }
+        else
+        {
+            @if (@Model.ExpenseCount > 0)
+            {
+                <p>All @Model.ExpenseCount transactions in this category will move to <strong>Other</strong>. Their amounts, dates, and notes will be preserved.</p>
+            }
+            else
+            {
+                <p>This category will be permanently deleted. Are you sure?</p>            
+            }
+            
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger">Delete category</button>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </form>
+        }
+
+    </div>
+</div>
