@@ -7,7 +7,7 @@
     {
         [Required]
         [StringLength(Category.CategoryNameMax, MinimumLength = Category.CategoryNameMin)]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = null!;
 
 
         [StringLength(Category.CategoryDescriptionMax)]

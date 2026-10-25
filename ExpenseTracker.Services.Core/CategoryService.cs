@@ -159,5 +159,53 @@
 
             return deleteResponse;
         }
+
+        public async Task<Guid> EditAsync(Guid catId, CategoryRequest request, string userId)
+        {
+            string name = request.Name?.Trim() ?? string.Empty;
+            if (name.Length < EntityValidation.Category.CategoryNameMin ||
+                name.Length > EntityValidation.Category.CategoryNameMax)
+            {
+                throw new ArgumentException($"Enter a category name between {EntityValidation.Category.CategoryNameMin} and {EntityValidation.Category.CategoryNameMax} characters.", nameof(request.Name));
+            }
+
+            var normalizedName = name.ToUpperInvariant();
+
+            if (request.Description?.Length > EntityValidation.Category.CategoryDescriptionMax)
+            {
+                throw new ArgumentException($"Description must be {EntityValidation.Category.CategoryDescriptionMax} characters max.", nameof(request.Description));
+            }
+
+            if (normalizedName == ApplicationConstants.OtherCategoryName.ToUpperInvariant())
+            {
+                throw new ArgumentException("The category name Other is reserved for your default category.", nameof(request.Name));
+            }
+
+            Category? category = await dbContext.Categories
+                .SingleOrDefaultAsync(item => item.Id == catId && item.UserId == userId);
+
+            if (category is null)
+            {
+                throw new ArgumentException("Category not found.", nameof(request.Name));
+            }
+
+            if (await dbContext.Categories.AnyAsync(item => item.UserId == userId && item.Id != catId && item.Name.ToUpper() == normalizedName))
+            {
+                throw new ArgumentException("You already have a category with this name.", nameof(request.Name));
+            }
+
+            category.Name = name;
+            category.Description = request.Description?.Trim() ?? string.Empty;
+
+            try
+            {
+                await dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw new ArgumentException("An error occured during category update.", nameof(request.Name));
+            }
+            return category.Id;
+        }
     }
 }

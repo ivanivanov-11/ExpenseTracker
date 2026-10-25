@@ -25,11 +25,14 @@
 
                 @if (category.isDefault)
                 {
-                    <span class="text-muted small mt-auto">Default category · can't be deleted</span>
+                    <span class="text-muted small mt-auto">Default category · can't be deleted or edited</span>
                 }
                 else
                 {
-                    <a class="btn btn-outline-danger btn-sm mt-auto" asp-action="Delete" asp-route-id="@category.Id">Delete @category.Name</a>
+                    <div>
+					    <a class="btn btn-outline-primary btn-sm mt-auto" asp-action="Edit" asp-route-id="@category.Id">Edit @category.Name</a>
+                        <a class="btn btn-outline-danger btn-sm mt-auto" asp-action="Delete" asp-route-id="@category.Id">Delete @category.Name</a>
+                    </div>
                 }
             </div>
         </div>

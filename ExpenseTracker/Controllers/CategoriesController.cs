@@ -122,6 +122,49 @@
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            CategoryResponse? category = await categoryService.GetAsync(id, GetUserId());
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            CategoryFormViewModel categoryFormViewModel = new CategoryFormViewModel()
+            {
+                Name = category.Name,
+                Description = category.Description
+            };
+
+            return View(categoryFormViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Guid id, CategoryFormViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    CategoryRequest request = new CategoryRequest()
+                    {
+                        Name = model.Name,
+                        Description = model.Description
+                    };
+
+                    await categoryService.EditAsync(id, request, GetUserId());
+                    TempData["Toast"] = "Category updated.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (ArgumentException exception)
+                {
+                    ModelState.AddModelError(exception.ParamName ?? string.Empty, exception.Message);
+                }
+            }
+            return View(model);
+        }
+
         private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("User ID claim not found.");
 
     }
