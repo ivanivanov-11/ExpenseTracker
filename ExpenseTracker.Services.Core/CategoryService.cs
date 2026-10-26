@@ -76,9 +76,9 @@
 
             var normalizedName = name.ToUpperInvariant();
 
-            if (request.Description?.Length > EntityValidation.Category.CategoryDescriptionMax)
+            if (request.Description?.Length > EntityValidation.Category.CategoryDescriptionMax || request.Description?.Length < EntityValidation.Category.CategoryDescriptionMin)
             {
-                throw new ArgumentException($"Description must be {EntityValidation.Category.CategoryDescriptionMax} characters max.", nameof(request.Description));
+                throw new ArgumentException($"Description must be between {EntityValidation.Category.CategoryDescriptionMin} and {EntityValidation.Category.CategoryDescriptionMax} characters max.", nameof(request.Description));
             }
 
             if (normalizedName == ApplicationConstants.OtherCategoryName.ToUpperInvariant())
@@ -171,9 +171,9 @@
 
             var normalizedName = name.ToUpperInvariant();
 
-            if (request.Description?.Length > EntityValidation.Category.CategoryDescriptionMax)
+            if (request.Description?.Length > EntityValidation.Category.CategoryDescriptionMax || request.Description?.Length < EntityValidation.Category.CategoryDescriptionMin)
             {
-                throw new ArgumentException($"Description must be {EntityValidation.Category.CategoryDescriptionMax} characters max.", nameof(request.Description));
+                throw new ArgumentException($"Description must be between {EntityValidation.Category.CategoryDescriptionMin} and {EntityValidation.Category.CategoryDescriptionMax} characters max.", nameof(request.Description));
             }
 
             if (normalizedName == ApplicationConstants.OtherCategoryName.ToUpperInvariant())

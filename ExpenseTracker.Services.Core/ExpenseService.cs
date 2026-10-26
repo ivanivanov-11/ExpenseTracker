@@ -199,10 +199,10 @@
                 model.Title.Trim().Length < EntityValidation.Expense.ExpenseTitleMin ||
                 model.Title.Length > EntityValidation.Expense.ExpenseTitleMax)
             {
-                throw new ArgumentException("Enter a title between 2 and 80 characters.", "Title");
+                throw new ArgumentException($"Enter a title between {EntityValidation.Expense.ExpenseTitleMin} and {EntityValidation.Expense.ExpenseTitleMax} characters.", "Title");
             }
 
-            if (model.Amount <= 0 || model.Amount > 1000000000 || decimal.Round(model.Amount, 2) != model.Amount)
+            if (model.Amount <= 0 || model.Amount > decimal.Parse(EntityValidation.Expense.ExpenseAmountMax) || decimal.Round(model.Amount, 2) != model.Amount)
             {
                 throw new ArgumentException("Enter a positive amount with at most two decimal places.", "Amount");
             }
@@ -219,7 +219,7 @@
 
             if (model.Notes?.Length > EntityValidation.Expense.ExpenseNotesMax)
             {
-                throw new ArgumentException("Notes must be at most 240 characters.", "Notes");
+                throw new ArgumentException($"Notes must be at most {EntityValidation.Expense.ExpenseNotesMax} characters.", "Notes");
             }
 
             expense.Title = model.Title.Trim();

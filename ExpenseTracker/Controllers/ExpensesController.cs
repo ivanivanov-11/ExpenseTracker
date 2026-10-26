@@ -70,6 +70,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ExpenseViewModel model)
         {
             model.Categories = await GetCategoryOptionsAsync();
@@ -144,6 +145,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(ExpenseDetailsViewModel model)
         {
             bool isDeleted = await expenseService.DeleteAsync(model.Id, GetUserId());
@@ -208,6 +210,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ExpenseViewModel model)
         {
             model.Categories = await GetCategoryOptionsAsync();

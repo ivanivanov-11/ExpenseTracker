@@ -49,7 +49,7 @@
     </div>
 </form>
 
-<div class="d-flex justify-content-between align-items-center my-3"><div><p class="text-uppercase text-muted small mb-1">@(Model.Expenses.Count()) result@(Model.Expenses.Count() == 1 ? "" : "s")</p><h2 class="h4">All activity</h2></div><span class="badge bg-primary fs-6">Total @Model.Total.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</span></div>
+<div class="d-flex justify-content-between align-items-center my-3"><div><p class="text-uppercase text-muted small mb-1">@(Model.Expenses.Count()) result@(Model.Expenses.Count() == 1 ? "" : "s")</p><h2 class="h4">All activity</h2></div><span class="badge bg-primary fs-6">Total @Model.Total.ToString("C", CultureInfo.GetCultureInfo("bg-BG-u-cu-eur"))</span></div>
 <div class="border rounded bg-white table-responsive">
     @if (Model.Expenses.Count() == 0)
     {
@@ -80,7 +80,7 @@
                         </td>
 
                         <td class="text-end fw-semibold">
-                            @expense.Amount.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))
+                            @expense.Amount.ToString("C", CultureInfo.GetCultureInfo("bg-BG-u-cu-eur"))
                         </td>
                         
                         <td class="text-end">

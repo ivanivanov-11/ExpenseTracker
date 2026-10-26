@@ -11,7 +11,7 @@
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(CategoryNameMax, MinimumLength = CategoryDescriptionMin, ErrorMessage = "Name must be between {2} and {1} characters")]
+        [StringLength(CategoryNameMax, MinimumLength = CategoryNameMin, ErrorMessage = "Name must be between {2} and {1} characters")]
         public string Name { get; set; } = null!;
 
         [StringLength(CategoryDescriptionMax, MinimumLength = CategoryDescriptionMin, ErrorMessage = "Description must be between {2} and {1} characters")]

@@ -16,7 +16,8 @@
             return View(new BudgetViewModel { Year = result.Year, Month = result.Month, MonthlyLimit = result.MonthlyLimit });
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(BudgetViewModel model)
         {
             var now = DateTime.Now;

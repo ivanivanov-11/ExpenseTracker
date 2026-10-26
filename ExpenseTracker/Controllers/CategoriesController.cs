@@ -34,6 +34,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryFormViewModel model)
         {
             if (ModelState.IsValid)
@@ -82,6 +83,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
@@ -141,6 +143,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, CategoryFormViewModel model)
         {
             if (ModelState.IsValid)

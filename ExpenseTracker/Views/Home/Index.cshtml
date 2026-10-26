@@ -4,9 +4,9 @@
     <div><h1 class="display-6">Hello @(Model.UserName).</h1><p class="text-muted">Your spending for <strong>@Model.MonthName</strong>.</p></div>
 </div>
 <div class="row g-3 mb-4">
-    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Spent this month</h2><p class="fs-2 mb-0">@Model.TotalSpent.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</p><span>@Model.TransactionCount transactions</span></div></div>
-    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Average transaction</h2><p class="fs-2 mb-0">@Model.AverageTransaction.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</p></div></div>
-    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Budget remaining</h2><p class="fs-2 @(Model.BudgetLimit.HasValue && Model.BudgetRemaining < 0 ? "text-danger" : "")">@(Model.BudgetLimit.HasValue ? Model.BudgetRemaining.ToString("C", CultureInfo.GetCultureInfo("eu-EU")) : "Not set")</p><a asp-controller="Budget" asp-action="Index">Manage monthly budget</a></div></div>
+    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Spent this month</h2><p class="fs-2 mb-0">@Model.TotalSpent.ToString("C", CultureInfo.GetCultureInfo("bg-BG-u-cu-eur"))</p><span>@Model.TransactionCount transactions</span></div></div>
+    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Average transaction</h2><p class="fs-2 mb-0">@Model.AverageTransaction.ToString("C", CultureInfo.GetCultureInfo("bg-BG-u-cu-eur"))</p></div></div>
+    <div class="col-md-4"><div class="card card-body h-100"><h2 class="h6 text-muted">Budget remaining</h2><p class="fs-2 @(Model.BudgetLimit.HasValue && Model.BudgetRemaining < 0 ? "text-danger" : "")">@(Model.BudgetLimit.HasValue ? Model.BudgetRemaining.ToString("C", CultureInfo.GetCultureInfo("bg-BG-u-cu-eur")) : "Not set")</p><a asp-controller="Budget" asp-action="Index">Manage monthly budget</a></div></div>
 </div>
 <div class="row g-4">
     <section class="col-lg-7">
@@ -20,7 +20,7 @@
         {
             <a class="list-group-item list-group-item-action d-flex justify-content-between gap-3 p-3" asp-controller="Expenses" asp-action="Details" asp-route-id="@expense.Id">
                 <div><strong>@expense.Title</strong><div class="small text-muted">@expense.CategoryName · @expense.PaidAt.ToString("dd MMM, HH:mm")</div></div>
-                <strong>@expense.Amount.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</strong>
+                <strong>@expense.Amount.ToString("C", CultureInfo.GetCultureInfo("bg-BG-u-cu-eur"))</strong>
             </a>
         }
         </div>
@@ -34,7 +34,7 @@
         }
         @foreach (var category in Model.CategoryBreakdown)
         {
-            <div class="d-flex justify-content-between gap-3 py-2 border-bottom"><span>@category.CategoryName <span class="text-muted small">(@category.Percentage.ToString("0.#")%)</span></span><strong>@category.Amount.ToString("C", CultureInfo.GetCultureInfo("eu-EU"))</strong></div>
+            <div class="d-flex justify-content-between gap-3 py-2 border-bottom"><span>@category.CategoryName <span class="text-muted small">(@category.Percentage.ToString("0.#")%)</span></span><strong>@category.Amount.ToString("C", CultureInfo.GetCultureInfo("bg-BG-u-cu-eur"))</strong></div>
         }
         </div>
     </section>
