@@ -28,7 +28,12 @@ namespace ExpenseTracker
                 options.SignIn.RequireConfirmedAccount = false;
             })
                 .AddEntityFrameworkStores<ExpenseDbContext>();
-            
+
+            builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.Zero;
+            });
+
             builder.Services.AddScoped<IExpenseService, ExpenseService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IBudgetService, BudgetService>();

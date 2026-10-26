@@ -1,11 +1,14 @@
 namespace ExpenseTracker.Controllers
 {
-    using ExpenseTracker.ViewModels;
     using ExpenseTracker.Services.Core.Contracts;
+    using ExpenseTracker.Services.DTOs.Expense.Response;
+    using ExpenseTracker.ViewModels;
+    using ExpenseTracker.ViewModels.Category;
     using ExpenseTracker.ViewModels.Dashboard;
     using ExpenseTracker.ViewModels.Expense;
-    using ExpenseTracker.ViewModels.Category;
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using System.Security.Claims;
@@ -16,7 +19,17 @@ namespace ExpenseTracker.Controllers
         public async Task<IActionResult> Index()
         {
             string userId = GetUserId();
-            var result = await expenseService.GetDashboardAsync(userId, DateTime.Now);
+            DashboardResponse result;
+
+            try
+            {
+                result = await expenseService.GetDashboardAsync(userId, DateTime.Now);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
 
             DashboardViewModel dashboardViewModel = new DashboardViewModel()
             {

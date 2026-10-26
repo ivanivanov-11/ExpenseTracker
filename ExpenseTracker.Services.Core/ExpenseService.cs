@@ -21,6 +21,8 @@
                 .Select(u => new { u.Id, u.UserName })
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
+            if (user is null) throw new UnauthorizedAccessException("User no longer exists.");
+
             var monthExpenses = dbContext.Expenses
                 .AsNoTracking()
                 .Include(expense => expense.Category)
@@ -40,7 +42,7 @@
 
             return new DashboardResponse
             {
-                UserName = user.UserName,
+                UserName = user.UserName ,
                 MonthName = now.ToString("MMMM yyyy"),
                 TotalSpent = total,
                 TransactionCount = expenses.Count,
