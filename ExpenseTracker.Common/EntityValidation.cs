@@ -33,5 +33,11 @@
             public const string BudgetAmountMin = "0.01";
             public const string BudgetAmountMax = "5000000.00";
         }
+
+        public static class User
+        {
+            public const int UserNameMin = 3;
+            public const int UserNameMax = 30;
+        }
     }
 }
