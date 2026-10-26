@@ -1,0 +1,57 @@
+﻿@model ExpenseIndexViewModel
+@if (Model.TotalPages > 1)
+{
+    Dictionary<string, string?> RouteFor(int page) => new()
+    {
+        ["Filter.Search"] = Model.Filter.Search,
+        ["Filter.CategoryId"] = Model.Filter.CategoryId?.ToString(),
+        ["Filter.FromDateTime"] = Model.Filter.FromDateTime?.ToString("yyyy-MM-dd"),
+        ["Filter.ToDateTime"] = Model.Filter.ToDateTime?.ToString("yyyy-MM-dd"),
+        ["Filter.Page"] = page.ToString()
+    };
+
+    int start = Math.Max(1, Model.Page - 2);
+    int end = Math.Min(Model.TotalPages, Model.Page + 2);
+
+    <nav class="mt-3" aria-label="Transactions pages">
+        <ul class="pagination justify-content-center mb-0">
+            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-all-route-data="RouteFor(Model.Page - 1)">
+                    <i class="fa-solid fa-angle-left"></i>
+                </a>
+            </li>
+
+            @if (start > 1)
+            {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-all-route-data="RouteFor(1)">1</a></li>
+                
+                @if (start > 2)
+                {
+                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                }
+            }
+
+            @for (int i = start; i <= end; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-all-route-data="RouteFor(i)">@i</a>
+                </li>
+            }
+
+            @if (end < Model.TotalPages)
+            {
+                @if (end < Model.TotalPages - 1)
+                {
+                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                }
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-all-route-data="RouteFor(Model.TotalPages)">@Model.TotalPages</a></li>
+            }
+
+            <li class="page-item @(Model.Page == Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-all-route-data="RouteFor(Model.Page + 1)">
+                    <i class="fa-solid fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

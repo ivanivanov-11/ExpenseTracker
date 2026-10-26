@@ -9,6 +9,8 @@
         [StringLength(ExpenseNotesMax, MinimumLength = ExpenseTitleMin, ErrorMessage = "Search must be less than {1} characters")]
         public string? Search { get; set; }
 
+        public int Page { get; set; } = 1;
+
         public Guid? CategoryId { get; set; }
 
         [DataType(DataType.Date)]

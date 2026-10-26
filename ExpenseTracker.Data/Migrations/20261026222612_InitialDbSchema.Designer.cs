@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseTracker.Data.Migrations
 {
     [DbContext(typeof(ExpenseDbContext))]
-    [Migration("20261018213747_InitialDbSchema")]
+    [Migration("20261026222612_InitialDbSchema")]
     partial class InitialDbSchema
     {
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace ExpenseTracker.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("MonthlyLimit")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -87,7 +87,7 @@ namespace ExpenseTracker.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
@@ -98,6 +98,9 @@ namespace ExpenseTracker.Data.Migrations
                     b.Property<string>("Notes")
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("PaidAt")
+                        .HasColumnType("smalldatetime");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
@@ -111,9 +114,6 @@ namespace ExpenseTracker.Data.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("PaidAt")
-                        .HasColumnType("smalldatetime");
 
                     b.HasKey("Id");
 

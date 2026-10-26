@@ -7,6 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using ExpenseTracker.Common;
     using ExpenseTracker.Services.Core.Contracts;
+    using ExpenseTracker.Services.DTOs.Category.Response;
 
     public class ExpenseService : IExpenseService
     {
@@ -42,7 +43,7 @@
 
             return new DashboardResponse
             {
-                UserName = user.UserName ,
+                UserName = user.UserName ?? string.Empty,
                 MonthName = now.ToString("MMMM yyyy"),
                 TotalSpent = total,
                 TransactionCount = expenses.Count,
@@ -93,11 +94,19 @@
                 query = query.Where(expense => expense.PaidAt < filter.ToDateTime.Value.Date.AddDays(1));
             }
 
-            var expenses = await query.OrderByDescending(expense => expense.PaidAt).ToListAsync();
+            var totalCount = await query.CountAsync();
+            var total = await query.SumAsync(expense => expense.Amount);
 
-            return new ExpensePageResponse
-            {
-                Expenses = expenses.Select(expense => new ExpenseResponse
+            var pageSize = Math.Clamp(filter.PageSize, 1, 100);
+            var totalPages = Math.Max(1, (int)Math.Ceiling(totalCount / (double)pageSize));
+            var page = Math.Clamp(filter.Page, 1, totalPages);
+
+            var expenses = await query
+                .OrderByDescending(expense => expense.PaidAt)
+                .ThenByDescending(expense => expense.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(expense => new ExpenseResponse
                 {
                     Id = expense.Id,
                     Title = expense.Title,
@@ -106,9 +115,17 @@
                     CategoryId = expense.CategoryId,
                     CategoryName = expense.Category.Name,
                     PaymentMethod = expense.PaymentMethod
-                }).ToList(),
+                })
+                .ToListAsync();
 
-                Total = expenses.Sum(expense => expense.Amount)
+            return new ExpensePageResponse
+            {
+                Expenses = expenses,
+                Total = total,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages
             };
         }
 

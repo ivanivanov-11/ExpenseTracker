@@ -1,4 +1,4 @@
-﻿namespace ExpenseTracker.Services.DTOs.Expense.Response
+﻿namespace ExpenseTracker.Services.DTOs.Category.Response
 {
     public class CategorySpendResponse
     {

@@ -26,32 +26,38 @@
                 Search = filter.Search,
                 CategoryId = filter.CategoryId,
                 FromDateTime = filter.FromDateTime,
-                ToDateTime = filter.ToDateTime
+                ToDateTime = filter.ToDateTime,
+                Page = filter.Page
             });
+
 
             ExpenseIndexViewModel expenseIndexViewModel = new ExpenseIndexViewModel()
             {
                 Filter = filter,
                 Total = result.Total,
+                Page = result.Page,
+                TotalPages = result.TotalPages,
+                TotalCount = result.TotalCount,
                 Expenses = result.Expenses
-                .Select(item => new ExpenseRowViewModel()
-                {
-                    Id = item.Id,
-                    Title = item.Title,
-                    Amount = item.Amount,
-                    PaidAt = item.PaidAt,
-                    CategoryName = item.CategoryName,
-                    PaymentMethod = item.PaymentMethod
-                }).ToList(),
-                Categories = (await categoryService.GetAllAsync(userId))
-                .Select(item => new CategoryViewModel()
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Description = item.Description,
-                    isDefault = item.isDefault,
-                    ExpenseCount = item.ExpenseCount
-                }).ToList()
+                    .Select(item => new ExpenseRowViewModel()
+                    {
+                        Id = item.Id,
+                        Title = item.Title,
+                        Amount = item.Amount,
+                        PaidAt = item.PaidAt,
+                        CategoryName = item.CategoryName,
+                        PaymentMethod = item.PaymentMethod
+                    }).ToList(),
+                
+                    Categories = (await categoryService.GetAllAsync(userId))
+                    .Select(item => new CategoryViewModel()
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Description = item.Description,
+                        isDefault = item.isDefault,
+                        ExpenseCount = item.ExpenseCount
+                    }).ToList()
             };
 
             return View(expenseIndexViewModel);

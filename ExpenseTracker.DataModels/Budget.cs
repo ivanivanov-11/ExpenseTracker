@@ -20,7 +20,7 @@
         public int Month { get; set; }
 
         [Range(typeof(decimal), EntityValidation.Budget.BudgetAmountMin, EntityValidation.Budget.BudgetAmountMax)]
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(12,2)")]
         public decimal MonthlyLimit { get; set; }
 
         [Required]

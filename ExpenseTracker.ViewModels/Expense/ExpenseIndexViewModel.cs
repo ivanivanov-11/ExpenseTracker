@@ -7,5 +7,8 @@
         public IEnumerable<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
         public IEnumerable<ExpenseRowViewModel> Expenses { get; set; } = new List<ExpenseRowViewModel>();
         public decimal Total { get; set; }
+        public int Page { get; set; }
+        public int TotalPages { get; set; }
+        public int TotalCount { get; set; }
     }
 }

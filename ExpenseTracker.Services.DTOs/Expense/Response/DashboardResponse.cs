@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Services.DTOs.Expense.Response
+﻿using ExpenseTracker.Services.DTOs.Category.Response;
+
+namespace ExpenseTracker.Services.DTOs.Expense.Response
 {
     public class DashboardResponse
     {

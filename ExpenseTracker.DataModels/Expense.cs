@@ -19,6 +19,7 @@
         public string? Notes { get; set; }
 
         [Required, Range(typeof(decimal), ExpenseAmountMin, ExpenseAmountMax)]
+        [Column(TypeName = "decimal(12,2)")]
         public decimal Amount { get; set; }
 
         [Required]
