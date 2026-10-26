@@ -32,8 +32,7 @@
         <select asp-for="PaymentMethod" class="form-select form-select-lg">
             <option>Card</option>
             <option>Cash</option>
-            <option>Bank transfer</option>
-            <option>Direct debit</option>
+            <option>Bank Transfer</option>
             <option>Other</option>
         </select>
         
@@ -41,7 +40,7 @@
     </div>
     <div class="col-12 col-md-6">
         <label asp-for="PaidAt" class="form-label"></label>
-        <input asp-for="PaidAt" class="form-control form-control-lg" />
+        <input asp-for="PaidAt" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm:ss}" class="form-control form-control-lg" />
         <span asp-validation-for="PaidAt" class="text-danger small"></span>
     </div>
     <div class="col-12">
