@@ -100,9 +100,26 @@ namespace ExpenseTracker.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
+        public IActionResult OnGet(string returnUrl = null)
+        {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return LocalRedirect(Url.IsLocalUrl(returnUrl) ? returnUrl : Url.Content("~/"));
+            }
+
+            ReturnUrl = returnUrl;
+            return Page();
+        }
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return LocalRedirect(Url.IsLocalUrl(returnUrl) ? returnUrl : Url.Content("~/"));
+            }
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
