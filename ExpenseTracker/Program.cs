@@ -26,6 +26,7 @@ namespace ExpenseTracker
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
+                options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<ExpenseDbContext>();
 
